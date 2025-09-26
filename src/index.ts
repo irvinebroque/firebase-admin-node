@@ -19,7 +19,10 @@ import * as firebase from './default-namespace';
 
 // Only Node.js has a process variable that is of [[Class]] process
 const processGlobal = typeof process !== 'undefined' ? process : 0;
-if (Object.prototype.toString.call(processGlobal) !== '[object process]') {
+const isNodejs = Object.prototype.toString.call(processGlobal) === '[object process]';
+const isCloudflareWorker = typeof navigator !== 'undefined' && navigator.userAgent === 'Cloudflare-Workers';
+
+if (!isNodejs && !isCloudflareWorker) {
   const message = `
 ======== WARNING! ========
 
